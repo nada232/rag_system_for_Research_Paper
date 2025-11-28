@@ -1,23 +1,23 @@
-#  Project Title
-Research Paper RAG System]  
-An intelligent question-answering system specialized for analyzing domain-specific academic research papers (e.g., cryptography, medical imaging, NLP, etc.).
+ Research Paper RAG System
 
-##  Overview
+An intelligent question-answering system specialized for analyzing domain-specific academic research papers (e.g., cryptography, medical imaging,NLP, etc.).
+
+Overview
+
 This project implements a complete Retrieval-Augmented Generation (RAG) pipeline designed to extract, process, and answer questions from academic PDF documents. The system combines document loading, intelligent chunking, vector embeddings, semantic search, and advanced language models to deliver precise, context-aware answers with source attribution.
+Features
 
-##  Features
-1-Smart Document Processing: Automatic PDF loading and page-wise segmentation
-2-Intelligent Text Splitting: Recursive chunking with overlapping context preservation (300 chars, 50 overlap)
-3-Vector Embeddings: OpenAI text-embedding-ada-002 for semantic understanding
-4-Similarity Search: FAISS vector database for sub-millisecond document retrieval
-5-Dual QA Modes:
+ Smart Document Processing: Automatic PDF loading and page-wise segmentation
+ Intelligent Text Splitting: Recursive chunking with overlapping context preservation (300 chars, 50 overlap)
+ Vector Embeddings: OpenAI text-embedding-ada-002 for semantic understanding
+ Fast Similarity Search: FAISS vector database for sub-millisecond document retrieval
+ Dual QA Modes:
 Stuff Chain: Single-pass answer generation using all context
 Refine Chain: Iterative answer refinement across document chunks
-6- Ready RAG Bot: Encapsulated functions (rag_bot(), rag_answer()) for instant deployment
-7-Performance Evaluation: DSPy integration with SemanticF1 metric for answer quality assessment
+ Ready RAG Bot: Encapsulated functions (rag_bot(), rag_answer()) for instant deployment
+ Performance Evaluation: DSPy integration with SemanticF1 metric for answer quality assessment
 
-##  Tech Stack
-
+ Tech Stack
 | Component            | Technology                       | Version/Purpose                 |
 | -------------------- | -------------------------------- | ------------------------------- |
 | **Document Loading** | `LangChain PyPDFLoader`          | PDF parsing and page extraction |
@@ -29,11 +29,10 @@ Refine Chain: Iterative answer refinement across document chunks
 | **Evaluation**       | `DSPy`                           | SemanticF1 metric               |
 | **Environment**      | `python-dotenv`                  | Secure API key management       |
 | **File Format**      | `PyPDF2`                         | PDF content extraction          |
-
-##  System Architecture
+System Architecture
 ┌─────────────────────────────────────────────────────────────┐
 │                     PDF Document Input                      │
-│                   │
+│              Chaos-Based_Image_Encryption_Review.pdf        │
 └──────────────────────┬──────────────────────────────────────┘
                        │
                        ▼
@@ -85,44 +84,48 @@ Refine Chain: Iterative answer refinement across document chunks
 │                 DSPy Evaluation Layer                       │
 │              → SemanticF1 Quality Scoring                   │
 └─────────────────────────────────────────────────────────────┘
-
-##  Folder Structure
+Folder Structure
 rag-research-system/
 ├── data/
 │   └── papers/                          # Input research PDFs
-├── app.env                              
-├── basic rag.py                         #  RAG pipeline implementation
+├── app.env                              # ⚠️ API keys (not in Git)
+├── basic rag.py                         # Complete RAG pipeline
 ├── requirements.txt                     # Dependencies
-└── README.md                            
+└── README.md                            # This file
 
-##  How to Run the Project
-1-pip install -r requirements.txt
-2-Configure Environment run an app.env file in the project root
-3-Add PDF Files :Ensure the research paper PDF exists
 
-##  Example Usage
+How to Run the Project
+
+Step 1: Install Dependencies
+pip install -r requirements.txt
+Step 2: Configure Environment
+Create app.env file in the project root: OPENAI_API_KEY=sk-your-openai-api-key-here
+Step 3: Add PDF Files
+
+Ensure your research paper PDF exists in the correct path:
+data/Chaos-Based_Image_Encryption_Review.pdf
+Step 4: Run the Pipeline
+Execute the basic rag.ipynb script sequentially.
+
+Example Usage
+
+Basic RAG Query
 question = "What are the main characteristics of chaotic systems?"
 answer = rag_answer(question)
 print(answer)
-Output: "Chaotic systems include sensitivity to initial conditions, nonlinearity, aperiodicity, fractal structure, and local instability."
- 
- ##  Evaluate Custom Questions
+# Output: "Chaotic systems include sensitivity to initial conditions, nonlinearity, aperiodicity, fractal structure, and local instability."
+
+ Evaluate Custom Questions
  custom_test = {
     "question": "How is chaos applied in cryptography?",
     "response": "Chaos provides pseudo-randomness and sensitivity for secure encryption."
-}Re-run DSPy evaluation loop
+}
 
+# Re-run DSPy evaluation loop with your custom test data
 
-##  Switch Between QA Modes
+Switch Between QA Modes
+# For fast, simple answers
 stuff_result = stuff_chain({"input_documents": docs, "question": q})
+
+# For detailed, iterative refinement
 refine_result = refine_chain({"input_documents": docs, "question": q})
-
-##  Important Notes
-1- API Costs: gpt-4o-mini and text-embedding-ada-002 incur per-token charges
-2- Chunk Size: 300 characters optimized for abstract/summary sections
-3- K-Value: Top-5 documents retrieved by default; adjust in similarity_search(k=N)
-4- Environment Security: Never commit app.env to version control
-5- PDF Naming: Filename must match exactly: Chaos-Based_Image_Encryption_Review.pdf
-
-
-
